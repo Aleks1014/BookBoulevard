@@ -78,7 +78,10 @@ class ProductInventory(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.product
+        return self.product.title
+
+    class Meta:
+        verbose_name_plural = 'products Inventory'
 
 
 class Review(models.Model):
