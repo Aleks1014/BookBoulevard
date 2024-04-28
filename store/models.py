@@ -8,8 +8,8 @@ from django.utils import timezone
 class Author(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=70)
-    picture = models.ImageField(upload_to='author/')
-    social_media = models.URLField(max_length=200)
+    picture = models.ImageField(upload_to='author/', blank=True)
+    social_media = models.URLField(max_length=200, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
