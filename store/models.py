@@ -60,7 +60,7 @@ class Product(models.Model):
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=350)
     isbn = models.CharField(max_length=13)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.SET_NULL, null=True)
     publication_date = models.DateField()
@@ -68,10 +68,12 @@ class Product(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True)
     format = models.CharField(max_length=2, choices=formats)
     pages = models.IntegerField()
-
+    is_sale = models.BooleanField(default=False)
+    sale_price = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
     def __str__(self):
         return self.title
+
 
 class ProductInventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
