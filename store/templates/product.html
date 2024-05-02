@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    <br/>
+         <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                  <center>
+                <h3 class="card-title">{{ product.title }}</h3>
+                      <h5>{{ product.author }}</h5>
+                      <br/>
+                      <br/>
+                <p class="card-text">{{ product.description }}</p>
+                {% if product.is_sale %}
+                       <strike>
+                           £{{ product.price }}
+                       </strike>
+                      £{{ product.sale_price }}
+                {% else %}
+                      £{{ product.price }}
+                {% endif %}
+                <br/>
+                <br/>
+                <a href="" class="btn btn-secondary">Add to cart</a>
+                <br/>
+                <br/>
+                <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+                  </center>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+{% endblock %}

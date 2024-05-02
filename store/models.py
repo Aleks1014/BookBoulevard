@@ -58,7 +58,7 @@ class Product(models.Model):
         'EB': 'E-book'
     }
     title = models.CharField(max_length=150)
-    description = models.CharField(max_length=350)
+    description = models.TextField()
     isbn = models.CharField(max_length=13)
     price = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
