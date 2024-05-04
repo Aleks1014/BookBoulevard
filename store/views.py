@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Category, Subcategory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -10,7 +10,7 @@ from .forms import SignUpForm
 
 # Create your views here.
 def home(request):
-    products = Product.objects.all()[:4]
+    products = Product.objects.all()[:5]
     return render(request, 'home.html', {'products': products})
 
 
@@ -64,4 +64,18 @@ def register_user(request):
 def product(request, pk):
     product = Product.objects.get(id=pk)
     return render(request, 'product.html', {'product': product})
+
+
+def category(request, cat_name):
+    cat_name = cat_name.replace('-', ' ')
+
+    # to figure how to get all subcategories and their products
+    category = Category.objects.get(name=cat_name)
+    subcategories = Subcategory.objects.filter(category=category)
+    products = Product.objects.filter(subcategory__in=subcategories)
+    return render(request, 'category.html', {'category': category, 'subcategories': subcategories, 'products': products})
+    # except:
+    #     messages.error(request, 'That category does not exist.')
+    #     return redirect('home')
+
 
