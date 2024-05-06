@@ -12,7 +12,8 @@
 - [Technologies](#technologies)
 
 ## Introduction
-BookBoulevard in an online bookstore 
+BookBoulevard in an online bookstore platform that incorporates key functionalities such as user authentication, book catalog management and shopping cart management. It will also have the ability to process secure payments and tracking orders. 
+Additionally, it will have a recommendation system that will analyze user preferences to suggest personalized book recommendations. 
 
 
 ## Getting Started
@@ -41,21 +42,15 @@ To run BookBoulevard, you will need to set up your environment variables. These 
 
 - `JOB_MATCH_DB_HOST`: The address of your database server. For Azure-hosted MariaDB, it might look like `jobmatchserver.mariadb.database.azure.com`.
 
-- `JOB_MATCH_DB_NAME`: The name of your specific database in MariaDB, such as `jobmatch`.
+- `DB_NAME`: The name of your specific database in PostgreSQL, such as `bookboulevard`.
 
-- `JOB_MATCH_DB_USER`: Your database username with necessary permissions, something like `alphateam8@jobmatchserver`.
+- `DB_USER`: Your database username with necessary permissions, something like `postgres`.
 
-- `JOB_MATCH_DB_PASSWORD`: The password for your database user. It should be unique and not publicly disclosed.
+- `DB_PASSWORD`: The password for your database user. It should be unique and not publicly disclosed.
 
-- `JWT_SECRET_KEY`: The key used to sign and verify JWT tokens. This must be a long, random, and unique string.
+- `DB_HOST`: The host of your database, such as `localhost`.
 
-- `MAILTRAP_USERNAME`: Your MailTrap username for email testing and sandboxing.
-
-- `MAILTRAP_PASSWORD`: The corresponding password for your MailTrap account.
-
-- `API_KEY`: Specific API key provided by MailTrap or other services that require it.
-
-- `ADMIN_REGISTRATION_CODE`: A secure code used during the admin registration process. This code should be kept confidential.
+- `DB_PORT`: The port of your database, such as `5432`.
 
 
 ## Features
@@ -83,8 +78,8 @@ To run BookBoulevard, you will need to set up your environment variables. These 
 	<code><img width="30" src="https://user-images.githubusercontent.com/25181517/192158954-f88b5814-d510-4564-b285-dff7d6400dad.png" alt="HTML" title="HTML"/></code>
 	<code><img width="30" src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" alt="CSS" title="CSS"/></code>
 	<code><img width="30" src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" alt="JavaScript" title="JavaScript"/></code>
-	<code><img width="30" src="[https://github.com/marwin1991/profile-technology-icons/assets/136815194/3c698a4f-84e4-4849-a900-476b14311634](https://www.vectorlogo.zone/logos/postgresql/postgresql-ar21.svg)" alt="PostgreSQL" title="PostgreSQL"/></code>
-  	<code><img width="30" src="[https://cdn.worldvectorlogo.com/logos/fastapi.svg](https://static.djangoproject.com/img/logos/django-logo-positive.png)" alt="Django" title="Django"/></code>
+	<code><img width="30" src="https://www.vectorlogo.zone/logos/postgresql/postgresql-ar21.svg" alt="PostgreSQL" title="PostgreSQL"/></code>
+  	<code><img width="30" src="https://static.djangoproject.com/img/logos/django-logo-positive.png" alt="Django" title="Django"/></code>
 </div>
 
 
