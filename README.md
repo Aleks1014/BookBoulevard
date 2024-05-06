@@ -84,6 +84,5 @@ To run BookBoulevard, you will need to set up your environment variables. These 
 
 
 
-⭐ Star us on GitHub — it helps!
 
-[JobMatch Footer](#) | © 2023 JobMatch Team
+[BookBoulevard Footer](#) | © 2024 BookBoulevard
