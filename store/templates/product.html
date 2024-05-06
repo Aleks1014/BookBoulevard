@@ -26,7 +26,7 @@
                 {% endif %}
                 <br/>
                 <br/>
-                <a href="" class="btn btn-secondary">Add to cart</a>
+                      <button type="button" value = '{{ product.id }}' class="btn btn-secondary" id="add-cart">Add to cart</button>
                 <br/>
                 <br/>
                 <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
@@ -36,4 +36,32 @@
           </div>
         </div>
 </div>
+
+<script>
+    $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_add' %}',
+            data: {
+        product_id: $('#add-cart').val(),
+        product_qty: $('#qty-cart option:selected').text(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+            },
+
+            success: function(json){
+                //console.log(json)
+
+                document.getElementById("cart_quantity").textContent = json.qty
+                location.reload();
+            },
+
+            error: function(xhr, errmsg, err){
+
+            }
+        });
+
+    })
+</script>
 {% endblock %}
