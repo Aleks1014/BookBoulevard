@@ -62,3 +62,15 @@ class Cart():
             cart.pop(product_id)
         self.session.modified = True
         return cart
+
+    def total(self):
+        products = self.cart
+        total = 0
+        for product_id,qty in products.items():
+            product = Product.objects.get(pk=int(product_id))
+            if product.is_sale:
+                price = product.sale_price
+            else:
+                price = product.price
+            total += price * qty
+        return total
