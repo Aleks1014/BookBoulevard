@@ -1,55 +1,69 @@
 {% extends 'base.html' %}
 
 {% block content%}
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shopping Cart</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">View your cart</p>
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+            <p class="lead fw-normal text-white-50 mb-0">View your cart</p>
+        </div>
+    </div>
+</header>
+<br>
+<div class="container">
+    {% if cart_products %}
+    {% for product in cart_products %}
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-3">
+                <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <center>
+                        <h3 class="card-title">{{ product.title }}</h3>
+                        <h5>{{ product.author }}</h5>
+                        <br/>
+                        <p class="card-text">{{ product.description }}</p>
+                        {% if product.is_sale %}
+                        <strike>
+                            £{{ product.price }}
+                        </strike>
+                        £{{ product.sale_price }}
+                        {% else %}
+                        £{{ product.price }}
+                        {% endif %}
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">Quantity</div>
+                            <div class="col-md-2">
+                                <select class="form-select form-select-sm" id="qty-cart">
+                                    <option selected>
+                                        {% for key,value in quantities.items %}
+                                        {% if key == product.id|slugify %}
+                                        {{ value }}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="3">4</option>
+                                    <option value="3">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </center>
                 </div>
             </div>
-        </header>
-<br>
-    <div class="container">
-        {% if cart_products %}
-        {% for product in cart_products %}
-                <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                      <center>
-                    <h3 class="card-title">{{ product.title }}</h3>
-                          <h5>{{ product.author }}</h5>
-                          <br/>
-                          <br/>
-                    <p class="card-text">{{ product.description }}</p>
-                    {% if product.is_sale %}
-                           <strike>
-                               £{{ product.price }}
-                           </strike>
-                          £{{ product.sale_price }}
-                    {% else %}
-                          £{{ product.price }}
-                    {% endif %}
-                    <br/>
-                    <br/>
-                      </center>
-                  </div>
-                </div>
-              </div>
         </div>
-        <br>
-        {% endfor %}
-        {% else %}
-        Your shopping cart is empty.
-        {% endif %}
     </div>
-<br>
-<br>
-<br>
-<br>
+    {% endfor %}
+    {% else %}
+    Your shopping cart is empty.
+    {% endif %}
+</div>
 {% endblock %}

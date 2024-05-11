@@ -1,40 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content%}
-<div class="container" xmlns="http://www.w3.org/1999/html">
+<div class="container">
     <br/>
-         <div class="card mb-3">
-          <div class="row g-0">
+    <div class="card mb-3">
+        <div class="row g-0">
             <div class="col-md-4">
-              <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
+                <img width="300" height="400" src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8">
-              <div class="card-body">
-                  <center>
-                <h3 class="card-title">{{ product.title }}</h3>
-                      <h5>{{ product.author }}</h5>
-                      <br/>
-                      <br/>
-                <p class="card-text">{{ product.description }}</p>
-                {% if product.is_sale %}
-                       <strike>
-                           £{{ product.price }}
-                       </strike>
-                      £{{ product.sale_price }}
-                {% else %}
-                      £{{ product.price }}
-                {% endif %}
-                <br/>
-                <br/>
-                      <button type="button" value = '{{ product.id }}' class="btn btn-secondary" id="add-cart">Add to cart</button>
-                <br/>
-                <br/>
-                <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
-                  </center>
-              </div>
+                <div class="card-body">
+                    <center>
+                        <h3 class="card-title">{{ product.title }}</h3>
+                        <h5>{{ product.author }}</h5>
+                        <br/>
+                        <br/>
+                        <p class="card-text">{{ product.description }}</p>
+                        {% if product.is_sale %}
+                        <strike>
+                            £{{ product.price }}
+                        </strike>
+                        £{{ product.sale_price }}
+                        {% else %}
+                        £{{ product.price }}
+                        {% endif %}
+                        <br/>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">Quantity</div>
+                            <div class="col-md-2">
+                                <select class="form-select form-select-sm" id="qty-cart">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="3">4</option>
+                                    <option value="3">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <button type="button" value='{{ product.id }}' class="btn btn-secondary" id="add-cart">Add to
+                            cart
+                        </button>
+                        <br/>
+                        <br/>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+                    </center>
+                </div>
             </div>
-          </div>
         </div>
+    </div>
 </div>
 
 <script>
@@ -63,5 +78,6 @@
         });
 
     })
+
 </script>
 {% endblock %}

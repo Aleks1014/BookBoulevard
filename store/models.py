@@ -3,6 +3,7 @@ import time
 from django.db import models
 from django.utils import timezone
 
+
 # Create your models here.
 
 class Author(models.Model):
@@ -17,6 +18,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+
     class Meta:
         verbose_name_plural = 'categories'
 
@@ -50,6 +52,7 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     formats = {
@@ -104,8 +107,3 @@ class Review(models.Model):
     stars = models.DecimalField(choices=STAR_RATING, decimal_places=1, max_digits=2)
     review = models.CharField(max_length=350)
     date = models.DateTimeField(timezone.now())
-
-
-
-
-
