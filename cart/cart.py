@@ -32,6 +32,7 @@ class Cart():
     def __len__(self):
         return len(self.cart)
 
+
     def get_products(self):
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
@@ -42,6 +43,9 @@ class Cart():
         quantities = self.cart
         return quantities
 
+    def cart_quants(self):
+        cart_quantities = sum(self.cart.values())
+        return cart_quantities
     def update(self, product, quantity):
         product_id = str(product)
         product_qty = int(quantity)
@@ -50,3 +54,11 @@ class Cart():
         self.session.modified = True
         thing = self.cart
         return thing
+
+    def delete(self,product):
+        product_id = str(product)
+        cart = self.cart
+        if product_id in cart:
+            cart.pop(product_id)
+        self.session.modified = True
+        return cart
