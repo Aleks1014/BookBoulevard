@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content%}
+     <header class="bg-dark py-5">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Categories</h1>
+                        <p class="lead fw-normal text-white-50 mb-0">
+                            Choose your favourite category and find your next read.
+                        </p>
+                    </div>
+                </div>
+     </header>
+<br>
+<br>
+<br>
+     <div class="container">
+         <div class="row">
+             <center>
+                <div class="col-8">
+                    {% for category in categories %}
+                    <h2><a href="{% url 'category' category %}" class="link-dark">{{ category }}</a></h2>
+                        <br>
+                        {% for subcategory in subcategories %}
+                            {% if subcategory.category == category %}
+                    <h5><a href="" class="link-dark">{{ subcategory }}</a></h5>
+                            <br>
+                            <br>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+             </center>
+         </div>
+    </div>
+{% endblock %}

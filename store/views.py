@@ -79,3 +79,9 @@ def category(request, cat_name):
     #     return redirect('home')
 
 
+def category_summary(request):
+    categories = Category.objects.all()
+    subcategories = Subcategory.objects.all()
+    return render(request, 'category_summary.html', {'categories': categories, 'subcategories':subcategories})
+
+
