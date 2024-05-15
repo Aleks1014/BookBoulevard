@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import Product, Category, Subcategory
+from .models import Product, Category, Subcategory, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .forms import SignUpForm, UpdateUser, UpdatePasswordForm
+from .forms import SignUpForm, UpdateUser, UpdatePasswordForm, UserInfoForm
 
 
 # Create your views here.
@@ -52,8 +52,8 @@ def register_user(request):
             # log in user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, 'You have registered successfully.')
-            return redirect('home')
+            messages.success(request, 'You have registered successfully. Please fill out your additional information.')
+            return redirect('update_info')
         else:
             messages.error(request, 'There was a problem registering. Please try again.')
             return redirect('register')
@@ -78,6 +78,21 @@ def update_user(request):
         return redirect('home')
 
 
+def update_info(request):
+    if request.user.is_authenticated:
+        current_user = Profile.objects.get(user__id=request.user.id)
+        form = UserInfoForm(request.POST or None, instance=current_user)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been updated.')
+            return redirect('home')
+        return render(request, 'update_info.html', {'form': form})
+    else:
+        messages.error(request, 'You must log in to access this page.')
+        return redirect('home')
+
+
 def update_password(request):
     if request.user.is_authenticated:
         current_user = request.user
@@ -85,8 +100,9 @@ def update_password(request):
             form = UpdatePasswordForm(current_user, request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'You have successfully updated your password. Please login again.')
-                return redirect('login')
+                messages.success(request, 'You have successfully updated your password.')
+                login(request, current_user)
+                return redirect('update_user')
             else:
                 for error in list(form.errors.values()):
                     messages.error(request,error)
