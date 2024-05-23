@@ -33,7 +33,7 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Products</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Categories</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -42,8 +42,10 @@
                     </ul>
                 </li>
             </ul>
-            <form role="search" class="me-sm-1">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            <form role="search" class="me-sm-1" method=POST action="{% url 'search_result' %}">
+                {% csrf_token %}
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="searched">
+<!--                <button class="btn btn-outline-secondary" type="submit">Search</button>-->
         </form>
             <form class="d-flex">
                 <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from .models import Product, Category, Subcategory, Profile
 from django.contrib.auth import authenticate, login, logout
@@ -105,7 +106,7 @@ def update_password(request):
                 return redirect('update_user')
             else:
                 for error in list(form.errors.values()):
-                    messages.error(request,error)
+                    messages.error(request, error)
                     return redirect('update_password')
         else:
             form = UpdatePasswordForm(current_user)
@@ -127,7 +128,8 @@ def category(request, cat_name):
     category = Category.objects.get(name=cat_name)
     subcategories = Subcategory.objects.filter(category=category)
     products = Product.objects.filter(subcategory__in=subcategories)
-    return render(request, 'category.html', {'category': category, 'subcategories': subcategories, 'products': products})
+    return render(request, 'category.html',
+                  {'category': category, 'subcategories': subcategories, 'products': products})
     # except:
     #     messages.error(request, 'That category does not exist.')
     #     return redirect('home')
@@ -136,6 +138,18 @@ def category(request, cat_name):
 def category_summary(request):
     categories = Category.objects.all()
     subcategories = Subcategory.objects.all()
-    return render(request, 'category_summary.html', {'categories': categories, 'subcategories':subcategories})
+    return render(request, 'category_summary.html', {'categories': categories, 'subcategories': subcategories})
 
 
+def search_result(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        results = Product.objects.filter(
+            Q(author__first_name__icontains=searched) | Q(author__last_name__icontains=searched) | Q(
+            title__icontains=searched))
+        if not results:
+            messages.error(request, 'No books found. '
+                                    'Please double check your spelling or try with less specific keywords.')
+        return render(request, 'search_result.html', {'searched': searched, 'results': results})
+    else:
+        return render(request, 'search_result.html', {})
