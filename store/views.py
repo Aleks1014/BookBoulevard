@@ -1,6 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from cart.cart import Cart
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 from .models import Product, Category, Subcategory, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -29,7 +31,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            current_user = Profile.objects.get(user__id=request.user.id)
+            current_user = Profile.objects.get(user_id=request.user.id)
             saved_cart = current_user.old_cart
             if saved_cart:
                 converted_cart = json.loads(saved_cart)
@@ -91,14 +93,16 @@ def update_user(request):
 
 def update_info(request):
     if request.user.is_authenticated:
-        current_user = Profile.objects.get(user__id=request.user.id)
+        current_user = Profile.objects.get(user_id=request.user.id)
+        shipping_user = ShippingAddress.objects.get(user_id=request.user.id)
         form = UserInfoForm(request.POST or None, instance=current_user)
-
-        if form.is_valid():
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+        if form.is_valid() or shipping_form.is_valid():
             form.save()
+            shipping_form.save()
             messages.success(request, 'Your account has been updated.')
-            return redirect('home')
-        return render(request, 'update_info.html', {'form': form})
+            return redirect('update_info')
+        return render(request, 'update_info.html', {'form': form, 'shipping_form':shipping_form})
     else:
         messages.error(request, 'You must log in to access this page.')
         return redirect('home')

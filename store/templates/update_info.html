@@ -13,15 +13,20 @@
 <!--         <div class="row">-->
              <center>
                 <div class="col-4">
-                    <p class="lead fw-normal text-black-50 mb-0">Your Details</p>
+                    <p class="lead fw-normal text-black-50 mb-0">Billing Address</p>
+                    <br>
                    <form method="POST" action="{% url 'update_info' %}">
                        {% csrf_token %}
                         {{ form.as_p }}
                        <br/><br/>
+                       <p class="lead fw-normal text-black-50 mb-0">Shipping Address</p>
+                       <br>
+                        {{ shipping_form.as_p }}
                        <button type="submit" class="btn btn-success">Update Profile</button>
                     </form>
                     <br>
                 </div>
+
              </center>
 <!--         </div>-->
     <br>
