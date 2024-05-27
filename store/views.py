@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from cart.cart import Cart
-from payment.forms import ShippingForm
-from payment.models import ShippingAddress
+from order_process.forms import ShippingForm
+from order_process.models import ShippingAddress
 from .models import Product, Category, Subcategory, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages

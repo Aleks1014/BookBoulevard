@@ -70,7 +70,10 @@
         </div>
     </div>
     {% endfor %}
-    <h3 align="center">Total: £ {{ cart.total }}</h3>
+    <div align="center">
+        <h3>Total: £ {{ cart.total }}</h3>
+        <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+    </div>
     <br>
     <br>
     {% else %}
@@ -129,6 +132,7 @@
         });
 
     })
+
 
 </script>
 
