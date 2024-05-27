@@ -40,7 +40,7 @@ pip install -r requirements. txt
 
 To run BookBoulevard, you will need to set up your environment variables. These are crucial for connecting to the database, securing your application, and setting authentication parameters. Below is a breakdown of the `.env` file contents:
 
-- `JOB_MATCH_DB_HOST`: The address of your database server. For Azure-hosted MariaDB, it might look like `jobmatchserver.mariadb.database.azure.com`.
+- `SECRET_KEY`: Django secret key. 
 
 - `DB_NAME`: The name of your specific database in PostgreSQL, such as `bookboulevard`.
 
