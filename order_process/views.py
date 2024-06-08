@@ -1,8 +1,8 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 from cart.cart import Cart
-from order_process.forms import ShippingForm
+from order_process.forms import ShippingForm, PaymentForm
 from order_process.models import ShippingAddress
+from django.contrib import messages
 
 
 # Create your views here.
@@ -30,3 +30,30 @@ def checkout(request):
                                                          'quantities': quantities,
                                                          'total_price': total_price,
                                                          'shipping_form': shipping_form})
+
+
+def billing_info(request):
+    if request.POST:
+        cart = Cart(request)
+        cart_products = cart.get_products
+        quantities = cart.get_quants
+        total_price = cart.total()
+        shipping_form = request.POST
+        if request.user.is_authenticated:
+            billing_form = PaymentForm()
+            return render(request, 'payment/billing_info.html', {'cart_products': cart_products,
+                                                                 'quantities': quantities,
+                                                                 'total_price': total_price,
+                                                                 'shipping_info': request.POST,
+                                                                 'billing_form': billing_form})
+        else:
+            billing_form = PaymentForm()
+            return render(request, 'payment/billing_info.html', {'cart_products': cart_products,
+                                                                 'quantities': quantities,
+                                                                 'total_price': total_price,
+                                                                 'shipping_info': request.POST,
+                                                                 'billing_form': billing_form})
+
+    else:
+        messages.error(request, 'Access Denied')
+        return redirect('home')

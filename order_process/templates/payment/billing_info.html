@@ -5,8 +5,8 @@
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Checkout</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Review your order</p>
+            <h1 class="display-4 fw-bolder">Billing Info</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Enter your payment details</p>
         </div>
     </div>
 </header>
@@ -18,11 +18,8 @@
                 <div class="card-header">
                     Order Summary
                 </div>
-                <div class="card-body" align="center">
+                <div class="card-body">
                     {% for product in cart_products %}
-                    <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="..." height="100"
-                         width="100">
-                    <br>
                     {{ product.title }}:
                     {% if product.is_sale %}
                     <strike>
@@ -52,31 +49,39 @@
 
             <br>
             <br>
-            <div class="card">
+            <div class=card>
                 <div class="card-header">
-                    Shipping Info
+                    Shipping details
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{% url 'billing_info' %}">
-                        {% csrf_token %}
-                        {{ shipping_form.as_p }}
-
+                       Name: {{ shipping_info.shipping_full_name }} <br>
+                       Email: {{ shipping_info.shipping_email }} <br>
+                       Telephone: {{ shipping_info.shipping_phone_number }} <br>
+                       Address: {{ shipping_info.shipping_address_1 }}, {{ shipping_info.shipping_address_1 }} <br>
+                       City: {{ shipping_info.shipping_city }} <br>
+                       Postal Code: {{ shipping_info.shipping_postal_code }} <br>
+                       Country: {{ shipping_info.shipping_country }} <br>
+                    <br>
+                    <a href="{% url 'checkout' %}" class="btn btn-sm btn-outline-secondary">Update shipping address</a>
+                        </div>
                 </div>
-            </div>
-            <br/>
+            <br>
+
+            <div class=card>
+                <div class="card-header">
+                    Billing Details
+                </div>
+                <div class="card-body">
+                    TEST
+                    {{ billing_form.as_p }}
+                        </div>
+                </div>
             <div align="center">
-                <button type="submit" class="btn btn-secondary">
-                    Continue To Billing
-                </button>
+                <a href="" class="btn btn-secondary">Pay Now</a>
             </div>
-            </form>
-            <br/><br/>
-
-
         </div>
     </div>
-</div>
-
+<br>
 
 {% endblock %}
 
