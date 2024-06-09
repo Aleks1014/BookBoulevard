@@ -109,6 +109,9 @@ def process_order(request):
                                               price=product_price)
                 create_order_item.save()
         messages.success(request, 'Order Placed.')
+        for key in list(request.session.keys()):
+            if key == 'session_key':
+                del request.session[key]
         return redirect('home')
 
     else:
