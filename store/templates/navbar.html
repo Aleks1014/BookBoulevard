@@ -9,6 +9,7 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                 <li class="nav-item dropdown">
@@ -23,6 +24,20 @@
                     </ul>
                 </li>
 
+                {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown2" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Orders</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Shipped Orders</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Non-shipped Orders</a></li>
+                    </ul>
+                </li>
+                    {% endif %}
+
 
                 {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
@@ -30,7 +45,7 @@
                 {% endif %}
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown1" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Categories</a></li>
