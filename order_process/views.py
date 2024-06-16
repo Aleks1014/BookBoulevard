@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from cart.cart import Cart
 from order_process.forms import ShippingForm, PaymentForm
@@ -132,7 +133,37 @@ def shipped_dash(request):
 def not_shipped_dash(request):
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=False)
+        if request.POST:
+            status = request.POST['shipping_status']
+            pk = request.POST['order_id']
+            if status:
+                now = datetime.datetime.now()
+                order = Order.objects.filter(id=pk)
+                order.update(shipped=True)
+                order.update(date_shipped=now)
+                messages.success(request, 'Order shipped.')
+                return redirect('not_shipped_dash')
         return render(request, 'payment/not_shipped_dash.html', {'orders': orders})
     else:
         messages.error(request, 'Access Denied.')
         return redirect('home')
+
+
+def orders(request, pk):
+    if request.user.is_authenticated and request.user.is_superuser:
+        order = Order.objects.get(id=pk)
+        items = OrderItem.objects.filter(order=pk)
+        if request.POST:
+            status = request.POST['shipping_status']
+            if status:
+                now = datetime.datetime.now()
+                order = Order.objects.filter(id=pk)
+                order.update(shipped=True)
+                order.update(date_shipped=now)
+                messages.success(request, 'Order shipped.')
+                return redirect('not_shipped_dash')
+        return render(request, 'payment/orders.html', {'order': order, 'items': items})
+    else:
+        messages.error(request, 'Access Denied.')
+        return redirect('home')
+

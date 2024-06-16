@@ -17,15 +17,24 @@
                         <th scope="col">Price</th>
                         <th scope="col">Customer e-mail</th>
                         <th scope="col">Date Ordered</th>
+                        <th scope="col">Ship</th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for item in orders %}
                     <tr>
-                        <td>{{ item.id }}</td>
+                        <td><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
                         <td>£{{ item.amount_paid }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.date_ordered }}</td>
+                        <td>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="shipping_status" value="true">
+                                <input type="hidden" name="order_id" value={{item.id}}>
+                                <button type="Submit" class="btn btn-success ship_order">Ship</button>
+                            </form>
+                        </td>
                     {% endfor %}
                     </tbody>
                 </table>

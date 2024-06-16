@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content%}
+
+
+<div class="container">
+    <div class="row">
+        <center>
+            <div class="col-8">
+                <br>
+                <h3> Order Details </h3>
+                <br>
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        Order {{ order.id }} - £{{ order.amount_paid }}
+                    </div>
+                    <div class="card-body">
+                        Email: {{ order.email }}
+                        <br>
+                        Date Ordered: {{ order.date_ordered }}
+                        <br>
+                        {% if order.date_shipped %}
+                            Date Shipped: {{ order.date_shipped }}
+                        <br>
+                        {% endif %}
+
+                        <br>
+                        Shipping Address:
+                        <br>
+                        {{ order.full_name }}<pre>{{ order.shipping_address }} </pre>
+
+
+                        Items:
+                        <br>
+                        {% for item in items %}
+                        {{ item.product }} - Qty: {{ item.quantity }}
+                        <br>
+                        £{{ item.price }}
+                        <br>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <br>
+                {% if order.shipped %}
+                    <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="shipping_status" value="false">
+                    </form>
+                    <a href="{% url 'shipped_dash' %}" class="btn btn-secondary">Orders</a>
+                {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="shipping_status" value="true">
+                    <button type="Submit" class="btn btn-success ship_order">Ship</button>
+                </form>
+                <a href="{% url 'not_shipped_dash' %}" class="btn btn-secondary">Orders</a>
+                <br>
+                {% endif %}
+            </div>
+        </center>
+    </div>
+    <br>
+</div>
+
+
+{% endblock %}
