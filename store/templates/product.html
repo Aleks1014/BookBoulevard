@@ -42,6 +42,9 @@
                         <button type="button" value='{{ product.id }}' class="btn btn-secondary" id="add-cart">Add to
                             cart
                         </button>
+                        <button type="button" value='{{ product.id }}' class="btn btn-outline-dark" id="wish_list_add">
+                            <img src="../static/assets/suit-heart-fill.svg" alt="heart" width="25" height="24">
+                        </button>
                         <br/>
                         <br/>
                         <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
@@ -70,6 +73,29 @@
 
                 document.getElementById("cart_quantity").textContent = json.qty
                 location.reload();
+            },
+
+            error: function(xhr, errmsg, err){
+
+            }
+        });
+
+    })
+
+    $(document).on('click', '#wish_list_add', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'wish_list_add' %}',
+            data: {
+                    product_id: $('#wish_list_add').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+            },
+
+            success: function(json){
+               console.log(json)
+               location.reload();
             },
 
             error: function(xhr, errmsg, err){
