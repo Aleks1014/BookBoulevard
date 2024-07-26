@@ -115,21 +115,14 @@ class ProductInventory(models.Model):
         verbose_name_plural = 'products Inventory'
 
 
-class Review(models.Model):
-    STAR_RATING = {
-        '1': 'One star',
-        '1.5': 'One and a half star',
-        '2': 'Two stars',
-        '2.5': 'Two and a half stars',
-        '3': 'Three stars',
-        '3.5': 'Three and a half stars',
-        '4': 'Four stars',
-        '4.5': 'Four and a half stars',
-        '5': 'Five stars',
-        '5.5': 'Five and a half stars',
-    }
+
+class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    stars = models.DecimalField(choices=STAR_RATING, decimal_places=1, max_digits=2)
-    review = models.CharField(max_length=350)
-    date = models.DateTimeField(timezone.now())
+    name = models.CharField(max_length=255)
+    rate = models.FloatField()
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.title} - {self.rate} - {self.name}"
+

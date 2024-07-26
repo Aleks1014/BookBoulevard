@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from cart.cart import Cart
 from order_process.forms import ShippingForm
 from order_process.models import ShippingAddress
-from .models import Product, Category, Subcategory, Profile
+from .models import Product, Category, Subcategory, Profile, Comment
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -132,7 +132,8 @@ def update_password(request):
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
-    return render(request, 'product.html', {'product': product})
+    comments = Comment.objects.filter(product=product)
+    return render(request, 'product.html', {'product': product, 'comments': comments})
 
 
 def category(request, cat_name):

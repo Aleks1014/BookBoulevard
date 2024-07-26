@@ -48,10 +48,28 @@
                         <br/>
                         <br/>
                         <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+
                     </center>
                 </div>
             </div>
         </div>
+    </div>
+    <br>
+    <div>
+        <h3>Reviews</h3>
+        <br>
+        {% for comment in comments %}
+        <strong>{{ comment.name }}</strong>
+        {{ comment.date_added }}
+        <br>
+        {{ comment.rate }}
+        <i class="fa fa-star" style="color:gold"></i>
+        <br>
+        {{ comment.body }}
+        <br>
+        <br>
+        {% endfor %}
+
     </div>
 </div>
 

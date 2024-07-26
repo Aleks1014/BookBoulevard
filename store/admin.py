@@ -19,7 +19,7 @@ admin.site.register(Author)
 admin.site.register(Publisher)
 admin.site.register(ProductInventory)
 admin.site.register(Profile)
-
+admin.site.register(Comment)
 
 #mix profile info and user info
 
