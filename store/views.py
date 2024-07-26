@@ -133,7 +133,11 @@ def update_password(request):
 def product(request, pk):
     product = Product.objects.get(id=pk)
     comments = Comment.objects.filter(product=product)
-    return render(request, 'product.html', {'product': product, 'comments': comments})
+    if comments:
+        avg_rate = sum(comment.rate for comment in comments)/len(comments)
+    else:
+        avg_rate = 0
+    return render(request, 'product.html', {'product': product, 'comments': comments, 'avg_rate':avg_rate})
 
 
 def category(request, cat_name):

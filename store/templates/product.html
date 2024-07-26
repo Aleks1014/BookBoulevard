@@ -13,8 +13,12 @@
                     <center>
                         <h3 class="card-title">{{ product.title }}</h3>
                         <h5>{{ product.author }}</h5>
+                            {% if comments %}
+                                {{ avg_rate }}
+                                <i class="fa fa-star" style="color:gold"></i> ({{ comments.count }})
+                        {% endif %}
                         <br/>
-                        <br/>
+                        <br>
                         <p class="card-text">{{ product.description }}</p>
                         {% if product.is_sale %}
                         <strike>
