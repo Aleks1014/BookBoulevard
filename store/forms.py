@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
 
-from store.models import Profile
+from store.models import Profile, Review
 
 
 class UpdateUser(UserChangeForm):
@@ -121,3 +121,12 @@ class UserInfoForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['phone', 'address1', 'address2', 'city', 'postal_code', 'country']
+
+
+class ReviewForm(forms.ModelForm):
+    name = forms.CharField(max_length=255)
+    rate = forms.FloatField()
+    body = forms.CharField()
+    class Meta:
+        model = Review
+        fields = ['name', 'rate', 'body']

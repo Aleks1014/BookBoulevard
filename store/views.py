@@ -3,14 +3,14 @@ from django.shortcuts import render, redirect
 from cart.cart import Cart
 from order_process.forms import ShippingForm
 from order_process.models import ShippingAddress
-from .models import Product, Category, Subcategory, Profile, Comment
+from .models import Product, Category, Subcategory, Profile, Review
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .forms import SignUpForm, UpdateUser, UpdatePasswordForm, UserInfoForm
+from .forms import SignUpForm, UpdateUser, UpdatePasswordForm, UserInfoForm, ReviewForm
 import json
 
 
@@ -132,9 +132,9 @@ def update_password(request):
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
-    comments = Comment.objects.filter(product=product)
+    comments = Review.objects.filter(product=product)
     if comments:
-        avg_rate = sum(comment.rate for comment in comments)/len(comments)
+        avg_rate = f'{sum(comment.rate for comment in comments) / len(comments):.2f}'
     else:
         avg_rate = 0
     return render(request, 'product.html', {'product': product, 'comments': comments, 'avg_rate':avg_rate})
@@ -172,3 +172,18 @@ def search_result(request):
         return render(request, 'search_result.html', {'searched': searched, 'results': results})
     else:
         return render(request, 'search_result.html', {})
+
+
+def submit_review(request, product_id):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product_id = product_id
+            review.save()
+            messages.success(request, 'Thank you, your review has been submitted!')
+        else:
+            messages.error(request, 'There was error.')
+        return redirect('product', pk=product_id)
+    return redirect('product')
+
