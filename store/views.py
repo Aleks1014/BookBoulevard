@@ -141,8 +141,6 @@ def product(request, pk):
 
 
 def category(request, cat_name):
-    cat_name = cat_name.replace('-', ' ')
-
     # to figure how to get all subcategories and their products
     category = Category.objects.get(name=cat_name)
     subcategories = Subcategory.objects.filter(category=category)

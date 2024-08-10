@@ -61,12 +61,10 @@
     <br>
     <div class="row g-0 small">
     <div>
-        <h3>Reviews</h3>
+        <h4>Reviews</h4>
         <form action="{% url 'submit_review' product.id %}" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <br>
-            <h6>Write your review</h6>
+            <p>Write your review<p>
             <div class="col-md-6">
                 Name<input class="form-control" type="text" name="name" required>
                 <br>

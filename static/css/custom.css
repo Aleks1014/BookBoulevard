@@ -31,3 +31,17 @@ padding-right: 0;
 input:checked ~ label, label:hover ~ label{
 color:gold;
 }
+
+
+.grid-container{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+}
+
+.grid-item{
+  border: 2px solid black;
+  padding: 30px;
+  display: grid;
+  place-items: center;
+}
