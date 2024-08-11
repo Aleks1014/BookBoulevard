@@ -30,7 +30,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '5e0e-2a02-c7c-ee44-a200-6443-eb67-7f49-777e.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://5e0e-2a02-c7c-ee44-a200-6443-eb67-7f49-777e.ngrok-free.app']
 
 
 # Application definition
@@ -46,7 +47,10 @@ INSTALLED_APPS = [
     'cart',
     'order_process',
     'wish_list',
+    'paypal.standard.ipn',
 ]
+
+PAYPAL_TEST = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,3 +143,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+PAYPAL_RECEIVER_EMAIL = 'business@bookboulevard.com'

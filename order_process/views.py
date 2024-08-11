@@ -6,6 +6,11 @@ from order_process.models import ShippingAddress, Order, OrderItem
 from django.contrib import messages
 from django.contrib.auth.models import User
 from store.models import Product
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid
+
 
 
 # Create your views here.
@@ -13,6 +18,9 @@ from store.models import Product
 
 def payment_success(request):
     return render(request, 'payment/payment_success.html', {})
+
+def payment_fail(request):
+    return render(request, 'payment/payment_fail.html', {})
 
 
 def checkout(request):
@@ -42,11 +50,25 @@ def billing_info(request):
         # session with shipping info
         my_shipping = request.POST
         request.session['my_shipping'] = my_shipping
+        host = request.get_host()
+        paypal_dict = {
+            'business': settings.PAYPAL_RECEIVER_EMAIL,
+            'amount': total_price,
+            'item_name': 'BookBoulevard',
+            'invoice': str(uuid.uuid4()),
+            'no_shipping': 2,
+            'currency_code': 'GBP',
+            'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+            'return': 'http://{}{}'.format(host, reverse('payment_success')),
+            'cancel': 'http://{}{}'.format(host, reverse('payment_fail')),
+        }
+
+        paypal_form = PayPalPaymentsForm(initial=paypal_dict)
         if request.user.is_authenticated:
             billing_form = PaymentForm()
             return render(request, 'payment/billing_info.html',
                           {'cart_products': cart_products, 'quantities': quantities, 'total_price': total_price,
-                           'shipping_info': request.POST, 'billing_form': billing_form})
+                           'shipping_info': request.POST, 'billing_form': billing_form, 'paypal_form': paypal_form})
         else:
             billing_form = PaymentForm()
             return render(request, 'payment/billing_info.html',
@@ -166,4 +188,3 @@ def orders(request, pk):
     else:
         messages.error(request, 'Access Denied.')
         return redirect('home')
-
