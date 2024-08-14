@@ -12,8 +12,11 @@ admin.site.register(Category)
 #         models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
 #     }
 
+class SubcategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category', 'parent')
 
-admin.site.register(Subcategory)
+
+admin.site.register(Subcategory, SubcategoryAdmin)
 admin.site.register(Product)
 admin.site.register(Author)
 admin.site.register(Publisher)
@@ -39,3 +42,4 @@ admin.site.unregister(User)
 
 
 admin.site.register(User, UserAdmin)
+

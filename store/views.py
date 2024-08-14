@@ -1,9 +1,12 @@
+from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from cart.cart import Cart
 from order_process.forms import ShippingForm
 from order_process.models import ShippingAddress
-from .models import Product, Category, Subcategory, Profile, Review
+from .models import Product, Category, Subcategory, Profile, Review, Customer
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -40,6 +43,8 @@ def login_user(request):
                     cart.db_add(product=key, quantity=value)
 
             messages.success(request, 'You have been logged in.')
+            send_mail(User.objects.get(username=username).email)
+
             return redirect('home')
         else:
             messages.error(request, 'There was an error. Please try again.')
@@ -143,7 +148,7 @@ def product(request, pk):
 def category(request, cat_name):
     # to figure how to get all subcategories and their products
     category = Category.objects.get(name=cat_name)
-    subcategories = Subcategory.objects.filter(category=category)
+    subcategories = Subcategory.objects.filter(category=category, parent__isnull=True)
     products = Product.objects.filter(subcategory__in=subcategories)
     return render(request, 'category.html',
                   {'category': category, 'subcategories': subcategories, 'products': products})
@@ -185,3 +190,13 @@ def submit_review(request, product_id):
         return redirect('product', pk=product_id)
     return redirect('product')
 
+def send_mail(email):
+    subject = 'Test Mail'
+    sender = 'aleks.dimova96@gmail.com'
+    receipient = email
+    html_content = render_to_string('emails/test_email.html')
+    plain_content = strip_tags(html_content)
+
+    msg = EmailMultiAlternatives(subject, plain_content, sender, [receipient])
+    msg.attach_alternative(html_content, 'text/html')
+    msg.send()
