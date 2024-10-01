@@ -1,3 +1,5 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="{% url 'home' %}">Book Boulevard</a>
@@ -72,11 +74,11 @@
             </form>
             <form class="d-flex p-1">
                 {% if user.is_authenticated %}
-                <a href="{% url 'wish_list_summary' %}" class="btn btn-outline-dark">
-                    <img src="../static/assets/suit-heart-fill.svg" width="25" height="24">
+                <a href="{% url 'wish_list_summary' %}" class="btn btn-outline-dark"></a>
+                    <img src="{% static 'assets/suit-heart-fill.svg' %}" width="25" height="24">
                     {% else %}
                     <a href="{% url 'login' %}" class="btn btn-outline-dark">
-                    <img src="../static/assets/suit-heart-fill.svg" width="25" height="24">
+                    <img src="{% static 'assets/suit-heart-fill.svg' %}" width="25" height="24">
                         {% endif %}
                 </a>
             </form>

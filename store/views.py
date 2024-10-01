@@ -2,6 +2,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.html import strip_tags
 from cart.cart import Cart
 from order_process.forms import ShippingForm
@@ -15,6 +16,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignUpForm, UpdateUser, UpdatePasswordForm, UserInfoForm, ReviewForm
 import json
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # Create your views here.
@@ -51,6 +54,20 @@ def login_user(request):
             return redirect('login')
     else:
         return render(request, 'login.html', {})
+
+
+# def reset_password(request):
+#     return render(request, 'reset_password_email.html', {})
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'reset_password.html'
+    email_template_name = 'emails/reset_password_email.html'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('home')
 
 
 def logout_user(request):
@@ -159,7 +176,7 @@ def category(request, cat_name):
 
 def category_summary(request):
     categories = Category.objects.all()
-    subcategories = Subcategory.objects.all()
+    subcategories = Subcategory.objects.filter(parent__isnull=True)
     return render(request, 'category_summary.html', {'categories': categories, 'subcategories': subcategories})
 
 
