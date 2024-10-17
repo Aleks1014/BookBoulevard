@@ -74,8 +74,9 @@
             </form>
             <form class="d-flex p-1">
                 {% if user.is_authenticated %}
-                <a href="{% url 'wish_list_summary' %}" class="btn btn-outline-dark"></a>
+                <a href="{% url 'wish_list_summary' %}" class="btn btn-outline-dark">
                     <img src="{% static 'assets/suit-heart-fill.svg' %}" width="25" height="24">
+                </a>
                     {% else %}
                     <a href="{% url 'login' %}" class="btn btn-outline-dark">
                     <img src="{% static 'assets/suit-heart-fill.svg' %}" width="25" height="24">
