@@ -45,8 +45,8 @@ def login_user(request):
                 for key,value in converted_cart.items():
                     cart.db_add(product=key, quantity=value)
 
-            messages.success(request, 'You have been logged in.')
-            send_mail(User.objects.get(username=username).email)
+            # messages.success(request, 'You have been logged in.')
+            # send_mail(User.objects.get(username=username).email)
 
             return redirect('home')
         else:
