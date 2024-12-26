@@ -34,3 +34,9 @@ class Wishlist():
         products = Product.objects.filter(id__in=product_ids)
 
         return products
+
+    def delete(self, product):
+        product_id = str(product)
+        if product_id in self.wish_list:
+            self.wish_list.pop(product_id)
+        self.session.modified = True

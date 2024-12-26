@@ -1,53 +1,89 @@
-{% extends 'base.html' %}
+    {% extends 'base.html' %}
 
-{% block content%}
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Wish List</h1>
-            <p class="lead fw-normal text-white-50 mb-0">View products added to your wish list</p>
-        </div>
-    </div>
-</header>
-<br>
-<div class="container">
-    {% if wish_list_products %}
-    {% for product in wish_list_products %}
-    <div class="card mb-4">
-        <div class="row g-0">
-            <div class="col-md-2">
-                <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
+    {% block content%}
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Wish List</h1>
+                <p class="lead fw-normal text-white-50 mb-0">View products added to your wish list</p>
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <center>
-                        <h3 class="card-title">{{ product.title }}</h3>
-                        <h5>{{ product.author }}</h5>
-                        <br/>
-                        <p class="card-text">{{ product.description }}</p>
-                        {% if product.is_sale %}
-                        <strike>
+        </div>
+    </header>
+    <br>
+    <div class="container">
+        {% if wish_list_products %}
+        {% for product in wish_list_products %}
+        <div class="card mb-4">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    <img src="{{ product.cover.url }}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <center>
+                            <h3 class="card-title">{{ product.title }}</h3>
+                            <h5>{{ product.author }}</h5>
+                            <br/>
+                            <p class="card-text">{{ product.description }}</p>
+                            {% if product.is_sale %}
+                            <strike>
+                                £{{ product.price }}
+                            </strike>
+                            £{{ product.sale_price }}
+                            {% else %}
                             £{{ product.price }}
-                        </strike>
-                        £{{ product.sale_price }}
-                        {% else %}
-                        £{{ product.price }}
-                        {% endif %}
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br>
-                        <br>
-                    </center>
+                            {% endif %}
+                            <br/>
+                            <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-wishlist m-3">
+                                Delete
+                            </button>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br>
+                            <br>
+                        </center>
+                    </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
+        <br>
+        <br>
+        {% else %}
+        Your wish list is empty.
+        {% endif %}
     </div>
-    {% endfor %}
-    <br>
-    <br>
-    {% else %}
-    Your wish list is empty.
-    {% endif %}
-</div>
+
+
+
+    <script>
+
+            $(document).on('click', '.delete-wishlist', function(e){
+            e.preventDefault();
+            var productid = $(this).data('index');
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'wishlist_delete' %}',
+                data: {
+            product_id: $(this).data('index'),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+                },
+
+                success: function(json){
+                    //console.log(json)
+                    //document.getElementById("cart_quantity").textContent = json.qty
+                    location.reload();
+                },
+
+                error: function(xhr, errmsg, err){
+
+                }
+            });
+
+        })
+    </script>
+
+
 {% endblock %}
